@@ -1,6 +1,6 @@
 {
   "name": "@lukasz17/ui-components",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "React components built on Base UI and styled with Tailwind CSS.",
   "keywords": [
     "react",
