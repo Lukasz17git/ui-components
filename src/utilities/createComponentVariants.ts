@@ -7,14 +7,14 @@ export type TComponentVariants<T> = T extends (options?: infer TOptions) => stri
 
 /** Returns a function that turns `{ color: 'primary' }` into that variant's classes */
 export const createComponentVariants =
-  <const T extends TVariants>(variants: T) =>
-  (options?: TVariantOptions<T>): string[] => {
-    if (!options) return []
+   <const T extends TVariants>(variants: T) =>
+   (options?: TVariantOptions<T>): string[] => {
+      if (!options) return []
 
-    return Object.entries(options).flatMap(([category, variantKey]) => {
-      if (variantKey === undefined) return []
-      const classes = variants[category]?.[variantKey]
-      if (classes === undefined) return []
-      return typeof classes === 'string' ? [classes] : [...classes]
-    })
-  }
+      return Object.entries(options).flatMap(([category, variantKey]) => {
+         if (variantKey === undefined) return []
+         const classes = variants[category]?.[variantKey]
+         if (classes === undefined) return []
+         return typeof classes === 'string' ? [classes] : [...classes]
+      })
+   }

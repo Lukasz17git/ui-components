@@ -4,6 +4,6 @@ import { defineConfig } from 'vite'
 
 // Serves the playground, used to try the components while building them (`npm run dev`)
 export default defineConfig({
-  root: 'playground',
-  plugins: [react(), tailwindcss()],
+   root: 'playground',
+   plugins: [react(), tailwindcss()],
 })
