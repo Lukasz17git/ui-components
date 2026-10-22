@@ -48,6 +48,39 @@ import { Button } from '@lukasz17/ui-components'
 
 Every other [Base UI Button prop](https://base-ui.com/react/components/button#api-reference) and native `<button>` attribute is passed through, `ref` included. An explicit `disabled` wins over `isPending`.
 
+## Utilities
+
+The helpers the components are built with, to build your own the same way.
+
+```tsx
+import { buttonVariants, cn, createComponentVariants, type TComponentVariants } from '@lukasz17/ui-components'
+
+cn('px-4 py-2', isActive && 'bg-primary', 'px-8') // 'py-2 bg-primary px-8' when isActive is true
+
+const badgeVariants = createComponentVariants({
+  color: { neutral: 'bg-muted text-foreground', danger: ['bg-destructive', 'text-destructive-foreground'] },
+  size: { sm: 'px-1.5 text-xs', md: 'px-2 text-sm' },
+})
+
+badgeVariants({ color: 'danger', size: 'sm' }) // ['bg-destructive', 'text-destructive-foreground', 'px-1.5 text-xs']
+type TBadgeVariants = TComponentVariants<typeof badgeVariants> // { readonly color?: 'neutral' | 'danger'; readonly size?: 'sm' | 'md' }
+
+const docsLink = (
+  <a href='/docs' className={cn(...buttonVariants({ color: 'outline', size: 'sm' }))}>
+    Docs
+  </a>
+)
+```
+
+| Export                              | Does                                                                                                                                   |
+| ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `cn(...classes)`                    | [clsx](https://github.com/lukeed/clsx) + [tailwind-merge](https://github.com/dcastil/tailwind-merge): on conflicts the last class wins |
+| `createComponentVariants(variants)` | Returns a function that turns `{ category: key }` into that variant's classes, as an array to spread into `cn`                         |
+| `TComponentVariants<typeof fn>`     | The options that function accepts, to type a `variant` prop                                                                            |
+| `buttonVariants`                    | The Button's variant classes, to style a link or another element like a button                                                         |
+
+A variants function skips categories set to `undefined` and keys it doesn't have, and returns `[]` without options. It returns only the variant classes, without the Button's base ones (layout, focus ring, disabled state).
+
 ## Development
 
 | Script           | Does                                                                    |
@@ -68,5 +101,5 @@ Every other [Base UI Button prop](https://base-ui.com/react/components/button#ap
 ### Releasing
 
 1. Run `npx changeset`, pick the bump type and describe the change, and commit the generated file.
-2. When pushed to `master`, CI opens a "Version Packages" PR.
+2. When pushed to `master`, CI opens a "Version Packages" PR and runs the checks on it.
 3. Merging that PR publishes to npm with [trusted publishing](https://docs.npmjs.com/trusted-publishers) (no npm token needed).
